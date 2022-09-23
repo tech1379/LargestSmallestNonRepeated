@@ -7,77 +7,33 @@ using System.Text;
 using System.Numerics;
 
 
+List<int> numbers = new List<int>() { 2, 22333, 454653, 8888, 999, 99988 };
 
-using System;
 
-public class Program
+Console.WriteLine(oddEven(numbers));
+
+static string oddEven(List<int> numbers)
 {
-    public static (int smallest, int biggest) findLargestAndSmallest(int[] numbers)
-    {
-        Array.Sort(numbers);
-        return (numbers[0], numbers[numbers.Length - 1]);
-    }
+    List<string> list = numbers.ConvertAll<string>(x => x.ToString());
 
-    public static (int smallest, int biggest) findLargestAndSmallestNonRepeated(int[] numbers)
+    foreach(string c in list)
     {
-        Dictionary<int, int> freq = new();
-        var array = numbers.ToList();
-        for (int i = 0; i < array.Count; i++)
-        {
-            if (!freq.ContainsKey(array[i]))
-            {
-                freq.Add(array[i], 1);
-            }
-            else
-            {
-                freq[array[i]] += 1;
-            }
-        }
-        foreach (var item in freq.Where(kvp => kvp.Value > 1).ToList())
-        {
-            freq.Remove(item.Key);
-        }
-        var finalList = freq.Keys.ToList();
-        finalList.Sort();
+        int countEven = c.Select(x => x - '0').Count(x => x % 2 == 0);
+        int countOdd = c.Select(x => x - '0').Count(x => x % 2 != 0);
 
-        if (finalList.Count > 1)
+        if (countEven % 2 == 0 && countOdd % 2 != 0)
         {
-            return (finalList[0], finalList[finalList.Count - 1]);
+            Console.WriteLine("YES");
         }
-        else if (finalList.Count == 0)
+        else if(countEven % 2 == 0 && countOdd == 0)
         {
-            return (0, 0);
+            Console.WriteLine("YES");
         }
         else
         {
-            return (finalList[0], finalList[0]);
+           Console.WriteLine("NO");
         }
-
     }
 
-    public static void Main()
-    {
-        int[] Numbers = { 1, 2, 3, 4, 5, 7, 10, 11, 100, 50, 55, 60, 75, 3 };
-
-        Console.WriteLine(findLargestAndSmallest(Numbers)); //1 and 100
-        Console.WriteLine(findLargestAndSmallestNonRepeated(Numbers)); //1 and 100		
-
-        int[] Numbers2 = { 1, 1, 1, 2, 5, 7, 10, 11, 100, 50, 100, 60, 75, 2 };
-
-        Console.WriteLine(findLargestAndSmallestNonRepeated(Numbers2)); //5 and 75		
-
-        int[] Numbers3 = { 1, 2, 1, 1, 1, 1, 1 };
-
-        Console.WriteLine(findLargestAndSmallestNonRepeated(Numbers3)); //2 and 2		
-
-        int[] Numbers4 = { 1, 1, 1, 1, 1, 1, 1 };
-
-        Console.WriteLine(findLargestAndSmallestNonRepeated(Numbers4)); //none
-
-
-        int[] Numbers5 = { 1, 2, 3, 1, 3 };
-
-    Console.WriteLine(findLargestAndSmallestNonRepeated(Numbers5)); //2 and 2
-        
-    }
+    return "";
 }
